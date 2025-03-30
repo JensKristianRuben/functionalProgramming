@@ -13,8 +13,9 @@ public class Main {
         public void myFunc(String str);
     }
 
-    public interface TwoArgument {
-        public int myFunc(int a, int b);
+    @FunctionalInterface
+    interface TwoArgument<T, R, U> {
+        R myFunc(T t, U u);
     }
 
     public static void printZero(ZeroArgument z0) {
@@ -52,45 +53,56 @@ public class Main {
 //        forEach(lstInt, square);
 
 
-        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
-        TwoArgument twoplus = (x, y) -> x + y;
-        int ss = sumTwoArgFunction(list, twoplus);
-        System.out.println(ss);
-        TwoArgument twomult = (x, y) -> x * y;
-        ss = sumTwoArgFunction(list, twomult);
-        System.out.println(ss);
+//        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5);
+//        TwoArgument twoplus = (x, y) -> x + y;
+//        int ss = sumTwoArgFunction(list, twoplus);
+//        System.out.println(ss);
+//        TwoArgument twomult = (x, y) -> x * y;
+//        ss = sumTwoArgFunction(list, twomult);
+//        System.out.println(ss);
+//
+//        List<Integer> dollarSedler = Arrays.asList(1, 5, 10);
+//        int pengedk = valutaomregner(dollarSedler, twomult, 6);
+//        System.out.println("du har dk=" + pengedk);
 
-        List<Integer> dollarSedler = Arrays.asList(1, 5, 10);
-        int pengedk = valutaomregner(dollarSedler, twomult, 6);
-        System.out.println("du har dk=" + pengedk);
 
+        TwoArgument<Double, Double, Double> something = (x, y) -> x * y;
+        double result = something.myFunc(10.0, 10.0);
+        System.out.println(result);
+
+        List<Double> dollarSedler = Arrays.asList(1.0, 5.0, 10.0, 0.5, 0.25);
+
+
+        TwoArgument<Double, Double, Double> twomult = (x, y) -> x * y;
+
+        double valutaResult = valutaomregner(dollarSedler, twomult, 6.75);
 
     }
 
-    static void forEachString(List<String> listOfStrings, Consumer<String> consumer) {
-        for (String element : listOfStrings) {
-            consumer.accept(element);
-        }
-    }
-
-    static <T> void forEach(List<T> lst, Consumer<T> consumer) {
-        for (T element : lst) {
-            consumer.accept(element);
-        }
-    }
-
-    static int sumTwoArgFunction(List<Integer> list, TwoArgument two) {
+//    static void forEachString(List<String> listOfStrings, Consumer<String> consumer) {
+//        for (String element : listOfStrings) {
+//            consumer.accept(element);
+//        }
+//    }
+//
+//    static <T> void forEach(List<T> lst, Consumer<T> consumer) {
+//        for (T element : lst) {
+//            consumer.accept(element);
+//        }
+//    }
+//
+//    static int sumTwoArgFunction(List<Integer> list, TwoArgument two) {
+//        int sum = 0;
+//        for (int t : list) {
+//            sum += two.myFunc(t, t);
+//        }
+//        return sum;
+//    }
+//
+    static int valutaomregner(List<Double> list, TwoArgument<Double, Double, Double> two, double kurs) {
         int sum = 0;
-        for (int t : list) {
-            sum += two.myFunc(t, t);
-        }
-        return sum;
-    }
-
-    static int valutaomregner(List<Integer> list, TwoArgument two, int kurs) {
-        int sum = 0;
-        for (int t : list) {
-            sum += two.myFunc(t, kurs);
+        for (double e : list) {
+            sum += two.myFunc(e, kurs);
         }
         return sum;
     }
